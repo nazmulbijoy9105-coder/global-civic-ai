@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from backend.app.routers import auth, payments, questions, admin, adaptive
+from app.routers import auth, payments, questions, admin, adaptive
 
 app = FastAPI()
 
