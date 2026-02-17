@@ -61,11 +61,17 @@ export default function SignupPage() {
       <div style={{ flex:1, background:"linear-gradient(135deg,#0A1628,#0A2E1F)", display:"flex", alignItems:"center", justifyContent:"center", padding:48 }}>
         <div>
           <div style={{ color:"#00C896", fontSize:11, fontWeight:700, letterSpacing:"2px", marginBottom:24 }}>GLOBAL CIVIC AI</div>
-          <h1 style={{ color:"#F8FAFC", fontSize:56, fontWeight:800, lineHeight:1.1, marginBottom:20 }}>Know Your<br/><span style={{ color:"#00C896" }}>Rights.</span></h1>
-          <p style={{ color:"#94A3B8", fontSize:16, lineHeight:1.7, maxWidth:360 }}>120+ civic and financial awareness questions. AI-powered insights for citizens worldwide.</p>
+          <h1 style={{ color:"#F8FAFC", fontSize:56, fontWeight:800, lineHeight:1.1, marginBottom:20 }}>
+            Know Your<br/><span style={{ color:"#00C896" }}>Rights.</span>
+          </h1>
+          <p style={{ color:"#94A3B8", fontSize:16, lineHeight:1.7, maxWidth:360 }}>
+            120+ civic and financial awareness questions. AI-powered insights for citizens worldwide.
+          </p>
         </div>
       </div>
 
       {/* Right side content */}
       <div style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", padding:40, background:"#F8FAFC" }}>
-        <div style={{ width:"100%", max
+        <div style={{ width:"100%", maxWidth:420, background:"#fff", borderRadius:20, padding:"48px 40px", boxShadow:"0 4px 40px rgba(0,0,0,0.08)" }}>
+          <h2 style={{ fontSize:26, fontWeight:800, marginBottom:6, color:"#0A1628" }}>Create Account</h2>
+          <p style={{ font
