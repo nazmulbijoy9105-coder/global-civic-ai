@@ -1,8 +1,7 @@
 'use client';
-
 import { createContext, useContext, useState, useEffect } from 'react';
+import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
-import { loginUser, registerUser } from '../lib/api';
 
 const AuthContext = createContext();
 
@@ -11,15 +10,23 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    // If you want to fetch current user, add a getCurrentUser function in lib/api.js
-    setLoading(false);
-  }, []);
+  useEffect(() => { checkAuth(); }, []);
+
+  const checkAuth = async () => {
+    try {
+      const userData = await api.getCurrentUser();
+      setUser(userData);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const login = async (credentials) => {
     try {
-      const data = await loginUser(credentials);
-      setUser(data);
+      const data = await api.login(credentials);
+      setUser(data.user);
       router.push('/dashboard');
       return { success: true };
     } catch (error) {
@@ -29,8 +36,8 @@ export function AuthProvider({ children }) {
 
   const signup = async (userData) => {
     try {
-      const data = await registerUser(userData);
-      setUser(data);
+      const data = await api.signup(userData);
+      setUser(data.user);
       router.push('/dashboard');
       return { success: true };
     } catch (error) {
@@ -39,6 +46,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+    api.logout();
     setUser(null);
     router.push('/login');
   };
@@ -50,4 +58,8 @@ export function AuthProvider({ children }) {
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
+  return context;
+};
