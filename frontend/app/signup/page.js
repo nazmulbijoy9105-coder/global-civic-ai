@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { registerUser, loginUser, getCurrentUser } from "../../lib/api";
+import { api } from "../../lib/api";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({ username: "", email: "", password: "", confirm: "" });
@@ -30,27 +30,30 @@ export default function SignupPage() {
     setLoading(true);
     setServerError("");
     try {
-      const result = await registerUser({ username: formData.username, email: formData.email, password: formData.password });
+      const result = await api.signup({ username: formData.username, email: formData.email, password: formData.password });
       if (result.id) {
-        const loginResult = await loginUser({ username: formData.username, password: formData.password });
+        const loginResult = await api.login({ username: formData.username, password: formData.password });
         if (loginResult.access_token) {
-          localStorage.setItem("token", loginResult.access_token);
+          localStorage.setItem("access_token", loginResult.access_token);
           setSuccess(true);
           setTimeout(() => window.location.href = "/dashboard", 1500);
         }
       } else {
         setServerError(result.detail || "Registration failed");
       }
-    } catch { setServerError("Could not connect to server"); }
+    } catch {
+      setServerError("Could not connect to server");
+    }
     setLoading(false);
   };
 
-  if (success) return (
-    <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",background:"#0A1628",color:"#00C896",fontSize:24,fontFamily:"sans-serif",flexDirection:"column",gap:16}}>
-      <div style={{fontSize:64}}>✅</div>
-      <div>Account created! Redirecting...</div>
-    </div>
-  );
+  if (success)
+    return (
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",background:"#0A1628",color:"#00C896",fontSize:24,fontFamily:"sans-serif",flexDirection:"column",gap:16}}>
+        <div style={{fontSize:64}}>✅</div>
+        <div>Account created! Redirecting...</div>
+      </div>
+    );
 
   return (
     <div style={{display:"flex",minHeight:"100vh",fontFamily:"sans-serif"}}>
@@ -66,11 +69,30 @@ export default function SignupPage() {
           <h2 style={{fontSize:26,fontWeight:800,marginBottom:6,color:"#0A1628"}}>Create Account</h2>
           <p style={{fontSize:14,color:"#64748B",marginBottom:28}}>Already have one? <a href="/login" style={{color:"#00C896",fontWeight:600,textDecoration:"none"}}>Sign in</a></p>
           <form onSubmit={handleSubmit}>
-            {[["username","Username","text","e.g. civic_hero"],["email","Email","email","you@example.com"],["password","Password","password","Min 6 chars"],["confirm","Confirm Password","password","Repeat password"]].map(([name,label,type,ph])=>(
+            {[
+              ["username", "Username", "text", "e.g. civic_hero"],
+              ["email", "Email", "email", "you@example.com"],
+              ["password", "Password", "password", "Min 6 chars"],
+              ["confirm", "Confirm Password", "password", "Repeat password"]
+            ].map(([name, label, type, placeholder]) => (
               <div key={name} style={{marginBottom:16}}>
                 <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>{label}</label>
-                <input name={name} type={type} placeholder={ph} value={formData[name]} onChange={handleChange}
-                  style={{width:"100%",padding:"12px 16px",border:`1.5px solid ${errors[name]?"#EF4444":"#E2E8F0"}`,borderRadius:10,fontSize:14,background:errors[name]?"#FFF5F5":"#F8FAFC",boxSizing:"border-box"}}/>
+                <input
+                  name={name}
+                  type={type}
+                  placeholder={placeholder}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  style={{
+                    width:"100%",
+                    padding:"12px 16px",
+                    border: `1.5px solid ${errors[name] ? "#EF4444" : "#E2E8F0"}`,
+                    borderRadius:10,
+                    fontSize:14,
+                    background: errors[name] ? "#FFF5F5" : "#F8FAFC",
+                    boxSizing: "border-box"
+                  }}
+                />
                 {errors[name] && <span style={{fontSize:12,color:"#EF4444"}}>{errors[name]}</span>}
               </div>
             ))}
