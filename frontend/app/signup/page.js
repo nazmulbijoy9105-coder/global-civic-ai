@@ -49,60 +49,23 @@ export default function SignupPage() {
 
   if (success)
     return (
-      <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh",background:"#0A1628",color:"#00C896",fontSize:24,fontFamily:"sans-serif",flexDirection:"column",gap:16}}>
-        <div style={{fontSize:64}}>✅</div>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"center", minHeight:"100vh", background:"#0A1628", color:"#00C896", fontSize:24, fontFamily:"sans-serif", flexDirection:"column", gap:16 }}>
+        <div style={{ fontSize:64 }}>✅</div>
         <div>Account created! Redirecting...</div>
       </div>
     );
 
   return (
-    <div style={{display:"flex",minHeight:"100vh",fontFamily:"sans-serif"}}>
-      <div style={{flex:1,background:"linear-gradient(135deg,#0A1628,#0A2E1F)",display:"flex",alignItems:"center",justifyContent:"center",padding:48}}>
+    <div style={{ display:"flex", minHeight:"100vh", fontFamily:"sans-serif" }}>
+      {/* Left side content */}
+      <div style={{ flex:1, background:"linear-gradient(135deg,#0A1628,#0A2E1F)", display:"flex", alignItems:"center", justifyContent:"center", padding:48 }}>
         <div>
-          <div style={{color:"#00C896",fontSize:11,fontWeight:700,letterSpacing:"2px",marginBottom:24}}>GLOBAL CIVIC AI</div>
-          <h1 style={{color:"#F8FAFC",fontSize:56,fontWeight:800,lineHeight:1.1,marginBottom:20}}>Know Your<br/><span style={{color:"#00C896"}}>Rights.</span></h1>
-          <p style={{color:"#94A3B8",fontSize:16,lineHeight:1.7,maxWidth:360}}>120+ civic and financial awareness questions. AI-powered insights for citizens worldwide.</p>
+          <div style={{ color:"#00C896", fontSize:11, fontWeight:700, letterSpacing:"2px", marginBottom:24 }}>GLOBAL CIVIC AI</div>
+          <h1 style={{ color:"#F8FAFC", fontSize:56, fontWeight:800, lineHeight:1.1, marginBottom:20 }}>Know Your<br/><span style={{ color:"#00C896" }}>Rights.</span></h1>
+          <p style={{ color:"#94A3B8", fontSize:16, lineHeight:1.7, maxWidth:360 }}>120+ civic and financial awareness questions. AI-powered insights for citizens worldwide.</p>
         </div>
       </div>
-      <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:40,background:"#F8FAFC"}}>
-        <div style={{width:"100%",maxWidth:420,background:"#fff",borderRadius:20,padding:"48px 40px",boxShadow:"0 4px 40px rgba(0,0,0,0.08)"}}>
-          <h2 style={{fontSize:26,fontWeight:800,marginBottom:6,color:"#0A1628"}}>Create Account</h2>
-          <p style={{fontSize:14,color:"#64748B",marginBottom:28}}>Already have one? <a href="/login" style={{color:"#00C896",fontWeight:600,textDecoration:"none"}}>Sign in</a></p>
-          <form onSubmit={handleSubmit}>
-            {[
-              ["username", "Username", "text", "e.g. civic_hero"],
-              ["email", "Email", "email", "you@example.com"],
-              ["password", "Password", "password", "Min 6 chars"],
-              ["confirm", "Confirm Password", "password", "Repeat password"]
-            ].map(([name, label, type, placeholder]) => (
-              <div key={name} style={{marginBottom:16}}>
-                <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>{label}</label>
-                <input
-                  name={name}
-                  type={type}
-                  placeholder={placeholder}
-                  value={formData[name]}
-                  onChange={handleChange}
-                  style={{
-                    width:"100%",
-                    padding:"12px 16px",
-                    border: `1.5px solid ${errors[name] ? "#EF4444" : "#E2E8F0"}`,
-                    borderRadius:10,
-                    fontSize:14,
-                    background: errors[name] ? "#FFF5F5" : "#F8FAFC",
-                    boxSizing: "border-box"
-                  }}
-                />
-                {errors[name] && <span style={{fontSize:12,color:"#EF4444"}}>{errors[name]}</span>}
-              </div>
-            ))}
-            {serverError && <div style={{background:"#FFF5F5",border:"1px solid #FCA5A5",borderRadius:8,padding:"10px 14px",fontSize:13,color:"#DC2626",marginBottom:16}}>{serverError}</div>}
-            <button type="submit" disabled={loading} style={{width:"100%",padding:14,background:"linear-gradient(135deg,#00C896,#00A878)",color:"#fff",border:"none",borderRadius:10,fontSize:15,fontWeight:700,cursor:"pointer",marginTop:8}}>
-              {loading ? "Creating..." : "Create Account →"}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
+
+      {/* Right side content */}
+      <div style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", padding:40, background:"#F8FAFC" }}>
+        <div style={{ width:"100%", max
