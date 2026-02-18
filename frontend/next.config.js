@@ -1,6 +1,5 @@
-// module.exports = {
-//   experimental: {
-//     turbo: false,
-//   },
-// };
-module.exports = {};
+module.exports = {
+  experimental: {
+    turbopack: { root: __dirname }
+  }
+};
