@@ -1,24 +1,34 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { api } from "../../lib/api";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: connect with backend API
-    console.log("Signup data:", formData);
+    setError("");
+    setLoading(true);
+    try {
+      await api.signup(formData);
+      router.push("/login");
+    } catch (err) {
+      setError(err.message || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,45 +43,27 @@ export default function SignupPage() {
         boxShadow: "0 4px 40px rgba(0,0,0,0.08)",
       }}
     >
-      <h2
-        style={{
-          fontSize: 26,
-          fontWeight: 800,
-          marginBottom: 6,
-          color: "#0A1628",
-        }}
-      >
+      <h2 style={{ fontSize: 26, fontWeight: 800, marginBottom: 6, color: "#0A1628" }}>
         Create Account
       </h2>
-
-      <p
-        style={{
-          fontSize: 16,
-          color: "#555",
-          marginBottom: 20,
-        }}
-      >
+      <p style={{ fontSize: 16, color: "#555", marginBottom: 20 }}>
         Welcome! Please fill in your details below.
       </p>
-
+      {error && (
+        <p style={{ color: "red", marginBottom: 12, fontSize: 14 }}>{error}</p>
+      )}
       <form onSubmit={handleSubmit}>
         <label style={{ display: "block", marginBottom: 12 }}>
-          Name
+          Username
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="username"
+            value={formData.username}
             onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: 6,
-              borderRadius: 8,
-              border: "1px solid #ccc",
-            }}
+            required
+            style={{ width: "100%", padding: "10px", marginTop: 6, borderRadius: 8, border: "1px solid #ccc" }}
           />
         </label>
-
         <label style={{ display: "block", marginBottom: 12 }}>
           Email
           <input
@@ -79,16 +71,10 @@ export default function SignupPage() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: 6,
-              borderRadius: 8,
-              border: "1px solid #ccc",
-            }}
+            required
+            style={{ width: "100%", padding: "10px", marginTop: 6, borderRadius: 8, border: "1px solid #ccc" }}
           />
         </label>
-
         <label style={{ display: "block", marginBottom: 20 }}>
           Password
           <input
@@ -96,32 +82,30 @@ export default function SignupPage() {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: 6,
-              borderRadius: 8,
-              border: "1px solid #ccc",
-            }}
+            required
+            style={{ width: "100%", padding: "10px", marginTop: 6, borderRadius: 8, border: "1px solid #ccc" }}
           />
         </label>
-
         <button
           type="submit"
+          disabled={loading}
           style={{
             width: "100%",
             padding: "12px",
-            background: "#0A1628",
+            background: loading ? "#999" : "#0A1628",
             color: "#fff",
             fontWeight: 600,
             borderRadius: 8,
             border: "none",
-            cursor: "pointer",
+            cursor: loading ? "not-allowed" : "pointer",
           }}
         >
-          Sign Up
+          {loading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
+      <p style={{ marginTop: 16, textAlign: "center", fontSize: 14 }}>
+        Already have an account? <a href="/login" style={{ color: "#0A1628" }}>Login</a>
+      </p>
     </div>
   );
 }
