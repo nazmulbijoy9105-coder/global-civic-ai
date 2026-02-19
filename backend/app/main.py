@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.routers import auth, payments, questions, admin, adaptive
+from app.routers import auth, payments, questions, admin, adaptive
 
 app = FastAPI(title="Global Civic AI", version="1.0.0")
 

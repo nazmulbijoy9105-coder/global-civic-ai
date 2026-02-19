@@ -1,65 +1,21 @@
-'use client';
-import { createContext, useContext, useState, useEffect } from 'react';
-import { api } from '@/lib/api';
-import { useRouter } from 'next/navigation';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://global-civic-ai-backend.onrender.com";
 
-const AuthContext = createContext();
+// signup
+const signup = async (email, password, name) => {
+  const res = await fetch(`${API_BASE_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, name }),
+  });
+  return res.json();
+};
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => { checkAuth(); }, []);
-
-  const checkAuth = async () => {
-    try {
-      const userData = await api.getCurrentUser();
-      setUser(userData);
-    } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const login = async (credentials) => {
-    try {
-      const data = await api.login(credentials);
-      setUser(data.user);
-      router.push('/dashboard');
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
-  };
-
-  const signup = async (userData) => {
-    try {
-      const data = await api.signup(userData);
-      setUser(data.user);
-      router.push('/dashboard');
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
-  };
-
-  const logout = () => {
-    api.logout();
-    setUser(null);
-    router.push('/login');
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within AuthProvider');
-  return context;
+// login
+const login = async (email, password) => {
+  const res = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  return res.json();
 };
