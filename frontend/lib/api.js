@@ -31,6 +31,14 @@ class APIClient {
 
 export const api = new APIClient();
 
+export async function loginUser(credentials) {
+  return api.login(credentials);
+}
+
+export async function registerUser(userData) {
+  return api.signup(userData);
+}
+
 export async function getCurrentUser(token) {
   const response = await fetch(`${API_BASE_URL}/users/me`, {
     headers: { Authorization: `Bearer ${token}` },
