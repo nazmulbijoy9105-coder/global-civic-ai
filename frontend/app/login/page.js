@@ -19,7 +19,7 @@ export default function LoginPage() {
       if (result.access_token) {
         localStorage.setItem("token", result.access_token);
         setMessage("Login successful! Redirecting...");
-        setTimeout(() => window.location.href = "/dashboard", 1000);
+        setTimeout(() => (window.location.href = "/dashboard"), 1000);
       } else {
         setMessage("Error: " + (result.detail || "Login failed"));
       }
@@ -39,6 +39,7 @@ export default function LoginPage() {
             placeholder="Username"
             onChange={handleChange}
             required
+            autoComplete="username"   // ✅ added
             style={{ width: "100%", padding: 10, marginBottom: 10 }}
           />
           <input
@@ -47,13 +48,22 @@ export default function LoginPage() {
             placeholder="Password"
             onChange={handleChange}
             required
+            autoComplete="current-password"   // ✅ added
             style={{ width: "100%", padding: 10 }}
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          style={{ width: "100%", padding: 12, background: "#7C3AED", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer" }}
+          style={{
+            width: "100%",
+            padding: 12,
+            background: "#7C3AED",
+            color: "#fff",
+            border: "none",
+            borderRadius: 8,
+            cursor: "pointer",
+          }}
         >
           {loading ? "Logging in..." : "Login"}
         </button>
@@ -61,7 +71,16 @@ export default function LoginPage() {
       <p style={{ marginTop: 16 }}>
         Don't have an account? <a href="/signup">Sign up</a>
       </p>
-      {message && <p style={{ marginTop: 12, color: message.includes("Error") ? "red" : "green" }}>{message}</p>}
+      {message && (
+        <p
+          style={{
+            marginTop: 12,
+            color: message.includes("Error") ? "red" : "green",
+          }}
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 }
