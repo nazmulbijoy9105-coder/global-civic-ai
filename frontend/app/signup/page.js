@@ -61,7 +61,14 @@ export default function SignupPage() {
             value={formData.username}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "10px", marginTop: 6, borderRadius: 8, border: "1px solid #ccc" }}
+            autoComplete="username"   // ✅ added
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: 6,
+              borderRadius: 8,
+              border: "1px solid #ccc",
+            }}
           />
         </label>
         <label style={{ display: "block", marginBottom: 12 }}>
@@ -72,7 +79,14 @@ export default function SignupPage() {
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "10px", marginTop: 6, borderRadius: 8, border: "1px solid #ccc" }}
+            autoComplete="email"   // ✅ added
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: 6,
+              borderRadius: 8,
+              border: "1px solid #ccc",
+            }}
           />
         </label>
         <label style={{ display: "block", marginBottom: 20 }}>
@@ -83,7 +97,14 @@ export default function SignupPage() {
             value={formData.password}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "10px", marginTop: 6, borderRadius: 8, border: "1px solid #ccc" }}
+            autoComplete="new-password"   // ✅ added for signup
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: 6,
+              borderRadius: 8,
+              border: "1px solid #ccc",
+            }}
           />
         </label>
         <button
